@@ -2,7 +2,7 @@
 function initCountdown() {
     // Set your wedding date here (format: 'MONTH DD, YYYY HH:MM:SS')
     // Example: 'June 15, 2024 16:00:00'
-    const weddingDate = new Date('June 15, 2024 16:00:00').getTime();
+    const weddingDate = new Date('July 26, 2026 09:00:00').getTime();
 
     function updateCountdown() {
         const now = new Date().getTime();
