@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>💍 Wedding Invitation 💍</h1>
+            <p>You are cordially invited to celebrate our special day</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Couple Section -->
+        <section class="couple">
+            <h2>Bride & Groom</h2>
+            <p>Together with their parents</p>
+            <p style="font-size: 1.3em; margin-top: 20px;"><strong>Request the honor of your presence</strong></p>
+        </section>
+
+        <!-- Countdown Timer -->
+        <section id="countdown">
+            <h2>Countdown to Our Big Day</h2>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <span class="number" id="days">00</span>
+                    <span class="label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="hours">00</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="minutes">00</span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="number" id="seconds">00</span>
+                    <span class="label">Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Details -->
+        <section class="details">
+            <div class="detail-box">
+                <h3>📅 Date & Time</h3>
+                <div class="info">
+                    <strong>Saturday, July 26, 2026</strong><br>
+                    9:00 AM WIB (Western Indonesia Time)
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <h3>📍 Venue</h3>
+                <div class="info">
+                    <strong>Wedding Venue Name</strong><br>
+                    Address Line 1<br>
+                    City, State ZIP Code<br>
+                    <a href="https://maps.google.com" target="_blank">View on Maps</a>
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <h3>🎊 Wedding Reception</h3>
+                <div class="info">
+                    <strong>Immediately following the ceremony</strong><br>
+                    At the same venue
+                </div>
+            </div>
+
+            <div class="detail-box">
+                <h3>💝 Gift Registry</h3>
+                <div class="info">
+                    Gifts can be found at:<br>
+                    <a href="#" target="_blank">Registry Link 1</a><br>
+                    <a href="#" target="_blank">Registry Link 2</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="rsvp-section">
+            <h2>RSVP</h2>
+            <p style="margin-bottom: 20px;">Please let us know if you can attend by July 10, 2026</p>
+            <form id="rsvpForm">
+                <div>
+                    <label for="name">Your Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div>
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+
+                <div>
+                    <label for="attendance">Will you be attending? *</label>
+                    <select id="attendance" name="attendance" required>
+                        <option value="">Select an option</option>
+                        <option value="yes">Yes, I will attend</option>
+                        <option value="no">No, I cannot attend</option>
+                        <option value="maybe">Maybe</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="message">Special Message (Optional)</label>
+                    <textarea id="message" name="message" placeholder="Share your well-wishes..."></textarea>
+                </div>
+
+                <button type="submit">Submit RSVP</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Our Wedding. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
