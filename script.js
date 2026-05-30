@@ -1,12 +1,45 @@
+// Configuration
+const CONFIG = {
+    weddingDate: 'July 26, 2026 09:00:00',
+    timezone: 'Asia/Jakarta' // WIB (Western Indonesia Time)
+};
+
+// DOM Elements Cache
+const elements = {
+    form: document.getElementById('rsvpForm'),
+    countdown: document.getElementById('countdown'),
+    daysEl: document.getElementById('days'),
+    hoursEl: document.getElementById('hours'),
+    minutesEl: document.getElementById('minutes'),
+    secondsEl: document.getElementById('seconds')
+};
+
+// Selectors
+const SELECTORS = {
+    animatedElements: '.detail-box, .couple, .info, .countdown-item',
+    anchorLinks: 'a[href^="#"]'
+};
+
 // Countdown Timer
 function initCountdown() {
-    // Set your wedding date here (format: 'MONTH DD, YYYY HH:MM:SS')
-    // Example: 'June 15, 2024 16:00:00'
-    const weddingDate = new Date('July 26, 2026 09:00:00').getTime();
+    const targetDate = new Date(CONFIG.weddingDate);
+    
+    if (isNaN(targetDate.getTime())) {
+        console.error('Invalid wedding date format');
+        return;
+    }
 
     function updateCountdown() {
         const now = new Date().getTime();
-        const distance = weddingDate - now;
+        const distance = targetDate.getTime() - now;
+
+        if (distance < 0) {
+            // Wedding has occurred
+            if (elements.countdown) {
+                elements.countdown.innerHTML = '<h3>🎉 The wedding is here! 🎉</h3>';
+            }
+            return;
+        }
 
         // Calculate time units
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -15,14 +48,14 @@ function initCountdown() {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Update HTML
-        document.getElementById('days').textContent = String(days).padStart(2, '0');
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        if (elements.daysEl) elements.daysEl.textContent = String(days).padStart(2, '0');
+        if (elements.hoursEl) elements.hoursEl.textContent = String(hours).padStart(2, '0');
+        if (elements.minutesEl) elements.minutesEl.textContent = String(minutes).padStart(2, '0');
+        if (elements.secondsEl) elements.secondsEl.textContent = String(seconds).padStart(2, '0');
 
-        // If countdown is finished
-        if (distance < 0) {
-            document.getElementById('countdown').innerHTML = '<h3>🎉 The wedding is here! 🎉</h3>';
+        // Update aria-label for accessibility
+        if (elements.countdown) {
+            elements.countdown.setAttribute('aria-label', `Wedding countdown: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
         }
     }
 
@@ -33,44 +66,65 @@ function initCountdown() {
     setInterval(updateCountdown, 1000);
 }
 
-// RSVP Form Handling
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize countdown
-    initCountdown();
+// Form Validation
+function validateRSVP(formData) {
+    if (!formData.name?.trim()) return 'Name is required';
+    if (!formData.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return 'Valid email is required';
+    if (!formData.attendance) return 'Please select your attendance status';
+    return null;
+}
 
-    // RSVP Form submission
-    const form = document.getElementById('rsvpForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const name = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const attendance = this.querySelector('select').value;
-            const message = this.querySelector('textarea').value;
-            
-            // Validate
-            if (!name || !email || !attendance) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            // Show success message
-            alert(`Thank you, ${name}! Your RSVP has been received. We look forward to celebrating with you!`);
-            
-            // Reset form
-            this.reset();
-            
-            // TODO: Send data to a backend service or email
-            // Example: fetch('/api/rsvp', { method: 'POST', body: JSON.stringify({name, email, attendance, message}) })
-            
-            console.log('RSVP Data:', { name, email, attendance, message });
-        });
+// Save RSVP to Local Storage
+function saveRSVP(data) {
+    try {
+        localStorage.setItem('rsvpData', JSON.stringify(data));
+    } catch (e) {
+        console.error('Failed to save RSVP data:', e);
     }
+}
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Load RSVP from Local Storage
+function loadRSVP() {
+    try {
+        return JSON.parse(localStorage.getItem('rsvpData') || '{}');
+    } catch (e) {
+        console.error('Failed to load RSVP data:', e);
+        return {};
+    }
+}
+
+// Initialize Animations
+function initializeAnimations() {
+    const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
+    animatedElements.forEach(element => {
+        element.classList.add('not-visible');
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+}
+
+// Throttled Scroll Handler
+function createThrottledScrollHandler() {
+    let scrollTimeout;
+    return function() {
+        if (scrollTimeout) return;
+        
+        scrollTimeout = setTimeout(() => {
+            const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
+            animatedElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    element.classList.remove('not-visible');
+                    element.classList.add('visible');
+                }
+            });
+            scrollTimeout = null;
+        }, 100);
+    };
+}
+
+// Setup Smooth Scroll for Anchor Links
+function setupSmoothScroll() {
+    document.querySelectorAll(SELECTORS.anchorLinks).forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -79,23 +133,66 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+}
 
-    // Add animation on scroll
-    window.addEventListener('scroll', function() {
-        const elements = document.querySelectorAll('.detail-box, .couple, .info, .countdown-item');
-        elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.8) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }
-        });
+// Setup RSVP Form Handling
+function setupRSVPForm() {
+    if (!elements.form) return;
+
+    elements.form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form data
+        const formData = {
+            name: this.querySelector('input[type="text"]')?.value || '',
+            email: this.querySelector('input[type="email"]')?.value || '',
+            attendance: this.querySelector('select')?.value || '',
+            message: this.querySelector('textarea')?.value || ''
+        };
+
+        // Validate form
+        const validationError = validateRSVP(formData);
+        if (validationError) {
+            alert(validationError);
+            return;
+        }
+
+        // Show success message
+        alert(`Thank you, ${formData.name}! Your RSVP has been received. We look forward to celebrating with you!`);
+
+        // Save RSVP data locally
+        saveRSVP(formData);
+
+        // Reset form
+        this.reset();
+
+        // TODO: Send data to a backend service or email
+        // Example: 
+        // fetch('/api/rsvp', { 
+        //     method: 'POST', 
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(formData) 
+        // })
+        // .catch(error => console.error('Error sending RSVP:', error));
+
+        console.log('RSVP Data:', formData);
     });
+}
+
+// Main Initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize countdown
+    initCountdown();
+
+    // Setup form handling
+    setupRSVPForm();
+
+    // Setup smooth scroll
+    setupSmoothScroll();
 
     // Initialize animations
-    document.querySelectorAll('.detail-box, .couple, .info, .countdown-item').forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
+    initializeAnimations();
+
+    // Setup throttled scroll listener
+    window.addEventListener('scroll', createThrottledScrollHandler());
 });
