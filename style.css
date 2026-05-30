@@ -1,14 +1,295 @@
-/* General Styles */
+/* ============================================
+   CSS VARIABLES & ROOT CONFIGURATION
+   ============================================ */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --accent-color: #f5576c;
+    --text-dark: #333;
+    --text-light: #999;
+    --white: #ffffff;
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --transition-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --transition-ease: ease-in-out;
+}
+
+/* ============================================
+   GENERAL STYLES & RESETS
+   ============================================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--text-dark);
+    background: var(--white);
+}
+
+/* ============================================
+   SPLASH SCREEN STYLES
+   ============================================ */
+
+/* Main Splash Screen Container */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Splash Background Image */
+.splash-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* Overlay for better text readability */
+.splash-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+/* Splash Ornaments (Decorative Assets) */
+.splash-ornament {
+    position: absolute;
+    object-fit: contain;
+    z-index: 5;
+}
+
+/* Floral Asset 2 - Left side, floating animation */
+.floral-2 {
+    left: 5%;
+    top: 10%;
+    width: 120px;
+    height: 120px;
+    animation: float 6s var(--transition-smooth) infinite;
+}
+
+/* Floral Asset 1 - Right side, floating animation */
+.floral-1 {
+    right: 5%;
+    bottom: 15%;
+    width: 140px;
+    height: 140px;
+    animation: float 7s var(--transition-smooth) infinite;
+    animation-delay: 0.5s;
+}
+
+/* Dot Up - Top decoration */
+.dot-up {
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    animation: float 5s var(--transition-smooth) infinite;
+    animation-delay: 1s;
+}
+
+/* Dot Low - Bottom decoration */
+.dot-low {
+    bottom: 8%;
+    right: 8%;
+    width: 90px;
+    height: 90px;
+    animation: float 5.5s var(--transition-smooth) infinite;
+    animation-delay: 0.2s;
+}
+
+/* Floating Animation for Ornaments */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Splash Content Container */
+.splash-content {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInSplash 1.2s ease-out forwards;
+}
+
+/* Glassmorphism Card */
+.splash-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+/* Fade-in Animation for Splash Screen */
+@keyframes fadeInSplash {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Fade-in and Slide-up Animation for Card */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Splash Title Section */
+.splash-title {
+    margin-bottom: 25px;
+}
+
+.splash-title img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Splash Names Section */
+.splash-names {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.name-svg {
+    width: 100px;
+    height: auto;
+    max-width: 45%;
+    object-fit: contain;
+}
+
+.ampersand-svg {
+    width: 40px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Splash Guest Section */
+.splash-guest {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    color: var(--white);
+    flex-wrap: wrap;
+}
+
+.splash-guest img {
+    height: 25px;
+    object-fit: contain;
+}
+
+#guest-name {
+    font-weight: 600;
+    color: var(--white);
+}
+
+/* Open Invitation Button */
+.open-invitation-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 32px;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s var(--transition-ease);
+    box-shadow: var(--shadow-medium);
+}
+
+.open-invitation-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-heavy);
+    background: var(--secondary-color);
+}
+
+.open-invitation-btn:active {
+    transform: scale(0.98);
+}
+
+/* Fade-out Animation for Splash Screen */
+@keyframes fadeOutSplash {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+/* Fade-out State */
+.splash-screen.fade-out {
+    animation: fadeOutSplash 0.8s ease-out forwards;
+}
+
+/* ============================================
+   MAIN CONTENT STYLES (Post-Splash)
+   ============================================ */
+
+#main-content {
+    position: relative;
+    z-index: 100;
+    background: var(--white);
 }
 
 /* Animation Classes */
@@ -29,10 +310,12 @@ body {
     padding: 0 20px;
 }
 
-/* Header/Navigation */
+/* ============================================
+   HEADER/NAVIGATION
+   ============================================ */
 header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
     padding: 40px 0;
     text-align: center;
 }
@@ -47,26 +330,30 @@ header p {
     opacity: 0.9;
 }
 
-/* Couple Section */
+/* ============================================
+   COUPLE SECTION
+   ============================================ */
 .couple {
-    background: white;
+    background: var(--white);
     padding: 40px;
     margin: 40px 0;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-light);
     text-align: center;
 }
 
 .couple h2 {
-    color: #667eea;
+    color: var(--primary-color);
     margin-bottom: 20px;
     font-size: 2em;
 }
 
-/* Countdown Section */
+/* ============================================
+   COUNTDOWN SECTION
+   ============================================ */
 #countdown {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
+    background: linear-gradient(135deg, #f093fb 0%, var(--accent-color) 100%);
+    color: var(--white);
     padding: 40px;
     border-radius: 10px;
     text-align: center;
@@ -106,22 +393,24 @@ header p {
     letter-spacing: 2px;
 }
 
-/* Details Section */
+/* ============================================
+   DETAILS SECTION
+   ============================================ */
 .details {
     margin: 40px 0;
 }
 
 .detail-box {
-    background: white;
+    background: var(--white);
     padding: 30px;
     margin: 20px 0;
-    border-left: 5px solid #667eea;
+    border-left: 5px solid var(--primary-color);
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-light);
 }
 
 .detail-box h3 {
-    color: #667eea;
+    color: var(--primary-color);
     margin-bottom: 15px;
     font-size: 1.3em;
 }
@@ -130,7 +419,9 @@ header p {
     margin: 10px 0;
 }
 
-/* Info Section */
+/* ============================================
+   INFO SECTION
+   ============================================ */
 .info {
     background: #f8f9fa;
     padding: 20px;
@@ -139,13 +430,27 @@ header p {
 }
 
 .info strong {
-    color: #667eea;
+    color: var(--primary-color);
 }
 
-/* RSVP Form */
+.info a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s var(--transition-ease);
+}
+
+.info a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* ============================================
+   RSVP FORM SECTION
+   ============================================ */
 .rsvp-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
     padding: 40px;
     border-radius: 10px;
     margin: 40px 0;
@@ -176,11 +481,19 @@ header p {
     border-radius: 5px;
     font-family: inherit;
     font-size: 1em;
+    transition: box-shadow 0.3s var(--transition-ease);
+}
+
+#rsvpForm input:focus,
+#rsvpForm select:focus,
+#rsvpForm textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
 #rsvpForm input::placeholder,
 #rsvpForm textarea::placeholder {
-    color: #999;
+    color: var(--text-light);
 }
 
 #rsvpForm textarea {
@@ -189,34 +502,85 @@ header p {
 }
 
 #rsvpForm button {
-    background: white;
-    color: #667eea;
+    background: var(--white);
+    color: var(--primary-color);
     padding: 12px 30px;
     border: none;
     border-radius: 5px;
     font-weight: 600;
     font-size: 1.1em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s var(--transition-ease);
+    align-self: center;
+    min-width: 150px;
 }
 
 #rsvpForm button:hover {
     background: #f0f0f0;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-medium);
 }
 
-/* Footer */
+#rsvpForm button:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
 footer {
     background: #333;
-    color: white;
+    color: var(--white);
     text-align: center;
     padding: 20px;
     margin-top: 40px;
 }
 
-/* Responsive Design */
+/* ============================================
+   RESPONSIVE DESIGN - TABLET
+   ============================================ */
 @media (max-width: 768px) {
+    /* Splash Screen Adjustments */
+    .splash-card {
+        padding: 30px 20px;
+        border-radius: 15px;
+    }
+
+    .floral-2 {
+        width: 90px;
+        height: 90px;
+        left: 2%;
+    }
+
+    .floral-1 {
+        width: 100px;
+        height: 100px;
+        right: 2%;
+    }
+
+    .dot-up {
+        width: 60px;
+        height: 60px;
+    }
+
+    .dot-low {
+        width: 70px;
+        height: 70px;
+    }
+
+    .splash-title img {
+        max-width: 200px;
+    }
+
+    .name-svg {
+        width: 80px;
+    }
+
+    .ampersand-svg {
+        width: 35px;
+    }
+
+    /* Main Content Adjustments */
     header h1 {
         font-size: 1.8em;
     }
@@ -245,7 +609,75 @@ footer {
     }
 }
 
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE
+   ============================================ */
 @media (max-width: 480px) {
+    /* Splash Screen Mobile Adjustments */
+    .splash-screen {
+        height: 100vh;
+    }
+
+    .splash-content {
+        width: 95%;
+    }
+
+    .splash-card {
+        padding: 25px 15px;
+        border-radius: 12px;
+    }
+
+    .floral-2 {
+        width: 70px;
+        height: 70px;
+        top: 5%;
+    }
+
+    .floral-1 {
+        width: 80px;
+        height: 80px;
+        bottom: 10%;
+    }
+
+    .dot-up {
+        width: 50px;
+        height: 50px;
+        top: 5%;
+    }
+
+    .dot-low {
+        width: 60px;
+        height: 60px;
+        bottom: 5%;
+    }
+
+    .splash-title img {
+        max-width: 160px;
+    }
+
+    .splash-names {
+        gap: 10px;
+    }
+
+    .name-svg {
+        width: 70px;
+    }
+
+    .ampersand-svg {
+        width: 30px;
+    }
+
+    .splash-guest {
+        font-size: 0.95em;
+        gap: 6px;
+    }
+
+    .open-invitation-btn {
+        padding: 10px 24px;
+        font-size: 0.95em;
+    }
+
+    /* Main Content Mobile Adjustments */
     header h1 {
         font-size: 1.3em;
     }
@@ -266,5 +698,39 @@ footer {
     .countdown-item .label {
         font-size: 0.75em;
         letter-spacing: 1px;
+    }
+
+    #countdown h2 {
+        font-size: 1.5em;
+    }
+
+    .detail-box h3 {
+        font-size: 1.1em;
+    }
+
+    .rsvp-section {
+        padding: 20px;
+    }
+
+    .rsvp-section h2 {
+        font-size: 1.5em;
+    }
+
+    #rsvpForm button {
+        width: 100%;
+        align-self: stretch;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    .splash-screen {
+        display: none;
+    }
+
+    #main-content {
+        z-index: 1;
     }
 }
