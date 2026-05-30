@@ -1,0 +1,270 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Animation Classes */
+.not-visible {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header/Navigation */
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* Couple Section */
+.couple {
+    background: white;
+    padding: 40px;
+    margin: 40px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.couple h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+/* Countdown Section */
+#countdown {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 40px 0;
+}
+
+#countdown h2 {
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 80px;
+    backdrop-filter: blur(10px);
+}
+
+.countdown-item .number {
+    font-size: 2em;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.countdown-item .label {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Details Section */
+.details {
+    margin: 40px 0;
+}
+
+.detail-box {
+    background: white;
+    padding: 30px;
+    margin: 20px 0;
+    border-left: 5px solid #667eea;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detail-box h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.detail-box p {
+    margin: 10px 0;
+}
+
+/* Info Section */
+.info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.info strong {
+    color: #667eea;
+}
+
+/* RSVP Form */
+.rsvp-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    margin: 40px 0;
+}
+
+.rsvp-section h2 {
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+#rsvpForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#rsvpForm label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#rsvpForm input,
+#rsvpForm select,
+#rsvpForm textarea {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+#rsvpForm input::placeholder,
+#rsvpForm textarea::placeholder {
+    color: #999;
+}
+
+#rsvpForm textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#rsvpForm button {
+    background: white;
+    color: #667eea;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#rsvpForm button:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .countdown-container {
+        gap: 10px;
+    }
+
+    .countdown-item {
+        min-width: 60px;
+        padding: 15px;
+    }
+
+    .countdown-item .number {
+        font-size: 1.5em;
+    }
+
+    #rsvpForm {
+        gap: 12px;
+    }
+
+    .couple, 
+    .detail-box,
+    .rsvp-section {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.3em;
+    }
+
+    .countdown-container {
+        gap: 8px;
+    }
+
+    .countdown-item {
+        min-width: 50px;
+        padding: 10px;
+    }
+
+    .countdown-item .number {
+        font-size: 1.2em;
+    }
+
+    .countdown-item .label {
+        font-size: 0.75em;
+        letter-spacing: 1px;
+    }
+}
