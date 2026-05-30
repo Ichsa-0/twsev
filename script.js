@@ -1,11 +1,24 @@
-// Configuration
+// ============================================
+// CONFIGURATION & CONSTANTS
+// ============================================
 const CONFIG = {
     weddingDate: 'July 26, 2026 09:00:00',
-    timezone: 'Asia/Jakarta' // WIB (Western Indonesia Time)
+    timezone: 'Asia/Jakarta', // WIB (Western Indonesia Time)
+    splashAnimationDuration: 800, // milliseconds
+    scrollAnimationDuration: 1000 // milliseconds
 };
 
-// DOM Elements Cache
+// ============================================
+// DOM ELEMENTS CACHE
+// ============================================
 const elements = {
+    // Splash Elements
+    splashScreen: document.getElementById('splashScreen'),
+    openInvitationBtn: document.getElementById('openInvitationBtn'),
+    guestNameEl: document.getElementById('guest-name'),
+    mainContent: document.getElementById('main-content'),
+
+    // Countdown Elements
     form: document.getElementById('rsvpForm'),
     countdown: document.getElementById('countdown'),
     daysEl: document.getElementById('days'),
@@ -14,13 +27,72 @@ const elements = {
     secondsEl: document.getElementById('seconds')
 };
 
-// Selectors
+// ============================================
+// SELECTORS
+// ============================================
 const SELECTORS = {
     animatedElements: '.detail-box, .couple, .info, .countdown-item',
     anchorLinks: 'a[href^="#"]'
 };
 
-// Countdown Timer
+// ============================================
+// SPLASH SCREEN FUNCTIONALITY
+// ============================================
+
+/**
+ * Extract guest name from URL parameters
+ * Example: index.html?to=Ichsanul+Habib
+ */
+function extractGuestNameFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const guestName = params.get('to');
+    return guestName ? decodeURIComponent(guestName) : 'Our Valued Guest';
+}
+
+/**
+ * Initialize guest name on splash screen
+ */
+function initializeGuestName() {
+    if (elements.guestNameEl) {
+        const guestName = extractGuestNameFromURL();
+        elements.guestNameEl.textContent = guestName;
+    }
+}
+
+/**
+ * Handle "Open Invitation" button click
+ * Triggers: fade out, slide up, and scroll to main content
+ */
+function handleOpenInvitationClick() {
+    if (!elements.splashScreen) return;
+
+    // Add fade-out animation class
+    elements.splashScreen.classList.add('fade-out');
+
+    // After animation completes, scroll to main content
+    setTimeout(() => {
+        if (elements.mainContent) {
+            elements.mainContent.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, CONFIG.splashAnimationDuration);
+}
+
+/**
+ * Setup splash screen interactions
+ */
+function setupSplashScreen() {
+    if (elements.openInvitationBtn) {
+        elements.openInvitationBtn.addEventListener('click', handleOpenInvitationClick);
+    }
+}
+
+// ============================================
+// COUNTDOWN TIMER FUNCTIONALITY
+// ============================================
+
+/**
+ * Initialize and start countdown timer
+ */
 function initCountdown() {
     const targetDate = new Date(CONFIG.weddingDate);
     
@@ -66,7 +138,15 @@ function initCountdown() {
     setInterval(updateCountdown, 1000);
 }
 
-// Form Validation
+// ============================================
+// FORM VALIDATION & HANDLING
+// ============================================
+
+/**
+ * Validate RSVP form data
+ * @param {Object} formData - Form data object
+ * @returns {string|null} - Error message or null if valid
+ */
 function validateRSVP(formData) {
     if (!formData.name?.trim()) return 'Name is required';
     if (!formData.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return 'Valid email is required';
@@ -74,7 +154,10 @@ function validateRSVP(formData) {
     return null;
 }
 
-// Save RSVP to Local Storage
+/**
+ * Save RSVP data to Local Storage
+ * @param {Object} data - RSVP data to save
+ */
 function saveRSVP(data) {
     try {
         localStorage.setItem('rsvpData', JSON.stringify(data));
@@ -83,7 +166,10 @@ function saveRSVP(data) {
     }
 }
 
-// Load RSVP from Local Storage
+/**
+ * Load RSVP data from Local Storage
+ * @returns {Object} - Stored RSVP data or empty object
+ */
 function loadRSVP() {
     try {
         return JSON.parse(localStorage.getItem('rsvpData') || '{}');
@@ -93,49 +179,9 @@ function loadRSVP() {
     }
 }
 
-// Initialize Animations
-function initializeAnimations() {
-    const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
-    animatedElements.forEach(element => {
-        element.classList.add('not-visible');
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-}
-
-// Throttled Scroll Handler
-function createThrottledScrollHandler() {
-    let scrollTimeout;
-    return function() {
-        if (scrollTimeout) return;
-        
-        scrollTimeout = setTimeout(() => {
-            const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
-            animatedElements.forEach(element => {
-                const rect = element.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    element.classList.remove('not-visible');
-                    element.classList.add('visible');
-                }
-            });
-            scrollTimeout = null;
-        }, 100);
-    };
-}
-
-// Setup Smooth Scroll for Anchor Links
-function setupSmoothScroll() {
-    document.querySelectorAll(SELECTORS.anchorLinks).forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-}
-
-// Setup RSVP Form Handling
+/**
+ * Setup RSVP form handling
+ */
 function setupRSVPForm() {
     if (!elements.form) return;
 
@@ -179,20 +225,99 @@ function setupRSVPForm() {
     });
 }
 
-// Main Initialization
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize countdown
+// ============================================
+// SCROLL ANIMATIONS
+// ============================================
+
+/**
+ * Initialize scroll-triggered animations
+ */
+function initializeAnimations() {
+    const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
+    animatedElements.forEach(element => {
+        element.classList.add('not-visible');
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+}
+
+/**
+ * Create a throttled scroll handler for performance
+ * @returns {Function} - Throttled scroll handler
+ */
+function createThrottledScrollHandler() {
+    let scrollTimeout;
+    return function() {
+        if (scrollTimeout) return;
+        
+        scrollTimeout = setTimeout(() => {
+            const animatedElements = document.querySelectorAll(SELECTORS.animatedElements);
+            animatedElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    element.classList.remove('not-visible');
+                    element.classList.add('visible');
+                }
+            });
+            scrollTimeout = null;
+        }, 100);
+    };
+}
+
+// ============================================
+// SMOOTH SCROLL FOR ANCHOR LINKS
+// ============================================
+
+/**
+ * Setup smooth scroll behavior for anchor links
+ */
+function setupSmoothScroll() {
+    document.querySelectorAll(SELECTORS.anchorLinks).forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+}
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+/**
+ * Main initialization function
+ * Called when DOM is fully loaded
+ */
+function initializeApplication() {
+    // Initialize guest name from URL parameter
+    initializeGuestName();
+
+    // Setup splash screen interactions
+    setupSplashScreen();
+
+    // Initialize countdown timer
     initCountdown();
 
-    // Setup form handling
+    // Setup RSVP form handling
     setupRSVPForm();
 
-    // Setup smooth scroll
+    // Setup smooth scroll for anchor links
     setupSmoothScroll();
 
-    // Initialize animations
+    // Initialize scroll-triggered animations
     initializeAnimations();
 
     // Setup throttled scroll listener
     window.addEventListener('scroll', createThrottledScrollHandler());
-});
+
+    // Log initialization
+    console.log('Wedding Invitation App Initialized');
+}
+
+// ============================================
+// DOM READY EVENT
+// ============================================
+
+document.addEventListener('DOMContentLoaded', initializeApplication);
