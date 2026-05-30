@@ -7,123 +7,186 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <h1>💍 Wedding Invitation 💍</h1>
-            <p>You are cordially invited to celebrate our special day</p>
+    <!-- SPLASH SCREEN (Full-screen Hero Section - 100vh) -->
+    <!-- Background: assets/bg.png
+         Decorative Assets: floral 2.png, floral 1.png, Dot Up.svg, Dot low.svg
+         All positioned with CSS absolute positioning for layered floating animations -->
+    <section class="splash-screen" id="splashScreen">
+        <!-- Background Image Layer -->
+        <div class="splash-background"></div>
+
+        <!-- DECORATIVE ASSETS - Positioned absolutely with floating animations -->
+
+        <!-- Floral Asset 2: Left side with floating animation (4-8s duration) -->
+        <img src="assets/floral 2.png" alt="Decorative floral ornament" class="splash-ornament floral-2">
+
+        <!-- Floral Asset 1: Right side with floating animation (4-8s duration) -->
+        <img src="assets/floral 1.png" alt="Decorative floral ornament" class="splash-ornament floral-1">
+
+        <!-- Dot Up: Top center decoration with subtle floating -->
+        <img src="assets/Dot Up.svg" alt="Decorative dots" class="splash-ornament dot-up">
+
+        <!-- Dot Low: Bottom right decoration with subtle floating -->
+        <img src="assets/Dot low.svg" alt="Decorative dots" class="splash-ornament dot-low">
+
+        <!-- Main Content Container with Glassmorphism Card Effect -->
+        <div class="splash-content">
+            <div class="splash-card">
+                <!-- Title: "The Wedding Of" SVG -->
+                <div class="splash-title">
+                    <img src="assets/Title.svg" alt="The Wedding Of" class="title-text">
+                </div>
+
+                <!-- Couple Names Section -->
+                <div class="splash-names">
+                    <!-- Bride Name SVG -->
+                    <img src="assets/Bride.svg" alt="Bride name" class="name-svg bride-name">
+                    
+                    <!-- Ampersand SVG -->
+                    <img src="assets/&.svg" alt="and" class="ampersand-svg">
+                    
+                    <!-- Groom Name SVG -->
+                    <img src="assets/Groom.svg" alt="Groom name" class="name-svg groom-name">
+                </div>
+
+                <!-- Guest Greeting Section -->
+                <!-- Reads guest name dynamically from URL parameter: ?to=Guest+Name -->
+                <!-- Example: index.html?to=Ichsanul+Habib -->
+                <!-- If no parameter, displays "Our Valued Guest" -->
+                <div class="splash-guest">
+                    <img src="assets/Dear.svg" alt="Dear">
+                    <span id="guest-name">Our Valued Guest</span>
+                </div>
+
+                <!-- Call-to-Action Button -->
+                <!-- On click: Fade out splash screen, slide upward, and scroll to main content -->
+                <button class="open-invitation-btn" id="openInvitationBtn">
+                    Open Invitation
+                </button>
+            </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Couple Section -->
-        <section class="couple">
-            <h2>Bride & Groom</h2>
-            <p>Together with their parents</p>
-            <p style="font-size: 1.3em; margin-top: 20px;"><strong>Request the honor of your presence</strong></p>
-        </section>
-
-        <!-- Countdown Timer -->
-        <section id="countdown">
-            <h2>Countdown to Our Big Day</h2>
-            <div class="countdown-container">
-                <div class="countdown-item">
-                    <span class="number" id="days">00</span>
-                    <span class="label">Days</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="number" id="hours">00</span>
-                    <span class="label">Hours</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="number" id="minutes">00</span>
-                    <span class="label">Minutes</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="number" id="seconds">00</span>
-                    <span class="label">Seconds</span>
-                </div>
+    <!-- MAIN CONTENT SECTION (Scrollable Content Below Splash) -->
+    <div id="main-content">
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <h1>💍 Wedding Invitation 💍</h1>
+                <p>You are cordially invited to celebrate our special day</p>
             </div>
-        </section>
+        </header>
 
-        <!-- Event Details -->
-        <section class="details">
-            <div class="detail-box">
-                <h3>📅 Date & Time</h3>
-                <div class="info">
-                    <strong>Saturday, July 26, 2026</strong><br>
-                    9:00 AM WIB (Western Indonesia Time)
+        <!-- Main Content -->
+        <main class="container">
+            <!-- Couple Section -->
+            <section class="couple">
+                <h2>Bride & Groom</h2>
+                <p>Together with their parents</p>
+                <p style="font-size: 1.3em; margin-top: 20px;"><strong>Request the honor of your presence</strong></p>
+            </section>
+
+            <!-- Countdown Timer -->
+            <section id="countdown">
+                <h2>Countdown to Our Big Day</h2>
+                <div class="countdown-container">
+                    <div class="countdown-item">
+                        <span class="number" id="days">00</span>
+                        <span class="label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="number" id="hours">00</span>
+                        <span class="label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="number" id="minutes">00</span>
+                        <span class="label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="number" id="seconds">00</span>
+                        <span class="label">Seconds</span>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="detail-box">
-                <h3>📍 Venue</h3>
-                <div class="info">
-                    <strong>Wedding Venue Name</strong><br>
-                    Address Line 1<br>
-                    City, State ZIP Code<br>
-                    <a href="https://maps.google.com" target="_blank">View on Maps</a>
-                </div>
-            </div>
-
-            <div class="detail-box">
-                <h3>🎊 Wedding Reception</h3>
-                <div class="info">
-                    <strong>Immediately following the ceremony</strong><br>
-                    At the same venue
-                </div>
-            </div>
-
-            <div class="detail-box">
-                <h3>💝 Gift Registry</h3>
-                <div class="info">
-                    Gifts can be found at:<br>
-                    <a href="#" target="_blank">Registry Link 1</a><br>
-                    <a href="#" target="_blank">Registry Link 2</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- RSVP Section -->
-        <section class="rsvp-section">
-            <h2>RSVP</h2>
-            <p style="margin-bottom: 20px;">Please let us know if you can attend by July 10, 2026</p>
-            <form id="rsvpForm">
-                <div>
-                    <label for="name">Your Name *</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            <!-- Event Details -->
+            <section class="details">
+                <div class="detail-box">
+                    <h3>📅 Date & Time</h3>
+                    <div class="info">
+                        <strong>Saturday, July 26, 2026</strong><br>
+                        9:00 AM WIB (Western Indonesia Time)
+                    </div>
                 </div>
 
-                <div>
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                <div class="detail-box">
+                    <h3>📍 Venue</h3>
+                    <div class="info">
+                        <strong>Wedding Venue Name</strong><br>
+                        Address Line 1<br>
+                        City, State ZIP Code<br>
+                        <a href="https://maps.google.com" target="_blank">View on Maps</a>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="attendance">Will you be attending? *</label>
-                    <select id="attendance" name="attendance" required>
-                        <option value="">Select an option</option>
-                        <option value="yes">Yes, I will attend</option>
-                        <option value="no">No, I cannot attend</option>
-                        <option value="maybe">Maybe</option>
-                    </select>
+                <div class="detail-box">
+                    <h3>🎊 Wedding Reception</h3>
+                    <div class="info">
+                        <strong>Immediately following the ceremony</strong><br>
+                        At the same venue
+                    </div>
                 </div>
 
-                <div>
-                    <label for="message">Special Message (Optional)</label>
-                    <textarea id="message" name="message" placeholder="Share your well-wishes..."></textarea>
+                <div class="detail-box">
+                    <h3>💝 Gift Registry</h3>
+                    <div class="info">
+                        Gifts can be found at:<br>
+                        <a href="#" target="_blank">Registry Link 1</a><br>
+                        <a href="#" target="_blank">Registry Link 2</a>
+                    </div>
                 </div>
+            </section>
 
-                <button type="submit">Submit RSVP</button>
-            </form>
-        </section>
-    </main>
+            <!-- RSVP Section -->
+            <section class="rsvp-section">
+                <h2>RSVP</h2>
+                <p style="margin-bottom: 20px;">Please let us know if you can attend by July 10, 2026</p>
+                <form id="rsvpForm">
+                    <div>
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Our Wedding. All rights reserved.</p>
-    </footer>
+                    <div>
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div>
+                        <label for="attendance">Will you be attending? *</label>
+                        <select id="attendance" name="attendance" required>
+                            <option value="">Select an option</option>
+                            <option value="yes">Yes, I will attend</option>
+                            <option value="no">No, I cannot attend</option>
+                            <option value="maybe">Maybe</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="message">Special Message (Optional)</label>
+                        <textarea id="message" name="message" placeholder="Share your well-wishes..."></textarea>
+                    </div>
+
+                    <button type="submit">Submit RSVP</button>
+                </form>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Our Wedding. All rights reserved.</p>
+        </footer>
+    </div>
 
     <!-- Scripts -->
     <script src="script.js"></script>
